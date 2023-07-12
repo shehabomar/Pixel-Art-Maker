@@ -4,32 +4,39 @@
 // When size is submitted by the user, call makeGrid()
 
 function makeGrid(height, width) {
-
   var html = "";
-  for(var x = 0; x < height; x++){
+  for (var i = 0; i < height; i++) {
     html += "<tr>";
-    for(var z = 0; z < width; z++){
+    for (var j = 0; j < width; j++) {
       html += "<td></td>";
     }
     html += "</tr>";
   }
-  $("#pixel_canvas").html(html);
+  document.getElementById("pixel_canvas").innerHTML = html;
 }
 
-$(function(){
+document.addEventListener("DOMContentLoaded", function() {
   var height, width;
-  $("#sizePicker").on('submit', function(event){
-     height = $("#input_height").val();
-     width = $("#input_width").val();
+  document.getElementById("sizePicker").addEventListener("submit", function(event) {
     event.preventDefault();
+    height = document.getElementById("input_height").value;
+    width = document.getElementById("input_width").value;
     makeGrid(height, width);
   });
-  $("#pixel_canvas").on('click', 'td', function(){
-    var color = $("#colorPicker").val();
-    if($(this).css("background-color") == "#FFFFFF" || $(this).css("background-color") == "rgba(0, 0, 0, 0)" || $(this).css("background-color") == "rgb(255, 255, 255)") {
-      $(this).css("background-color", color);
-    } else {
-      $(this).css("background-color", "#FFFFFF");
+  
+  document.getElementById("pixel_canvas").addEventListener("click", function(event) {
+    var color = document.getElementById("colorPicker").value;
+    var target = event.target;
+    if (target.nodeName === "TD") {
+      if (
+        target.style.backgroundColor === "" ||
+        target.style.backgroundColor === "rgba(0, 0, 0, 0)" ||
+        target.style.backgroundColor === "rgb(255, 255, 255)"
+      ) {
+        target.style.backgroundColor = color;
+      } else {
+        target.style.backgroundColor = "#FFFFFF";
+      }
     }
-  })
+  });
 });
